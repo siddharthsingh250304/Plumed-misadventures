@@ -1,12 +1,20 @@
-Plumed-misadventures
-A Complete Guide to Installing GROMACS, PLUMED, and MLCVS with GPU Support
+Got it! Here’s the **full guide** properly formatted in **Markdown** with fenced code blocks for clear display on any Markdown renderer:
+
+---
+
+# Plumed-misadventures
+
+# A Complete Guide to Installing GROMACS, PLUMED, and MLCVS with GPU Support
 
 This guide will walk you through the complete setup of a GPU-accelerated simulation environment for the PLUMED Masterclass tutorial. It is designed to work on Ubuntu/Debian-based systems and incorporates solutions to common installation issues.
 
-Step 1: System Prerequisites (The Foundation)
+---
+
+### Step 1: System Prerequisites (The Foundation)
 
 First, install all the necessary compilers, build tools, and development headers required by the scientific software. This prevents many common errors.
 
+```bash
 # Update your package list
 sudo apt update
 
@@ -16,19 +24,27 @@ sudo apt install build-essential cmake git wget python3-dev python3-pip gcc-10 g
 
 # Install essential Python build packages using pip
 pip3 install --upgrade pip setuptools cython
+```
 
-Step 2: Install the NVIDIA CUDA Toolkit
+---
+
+### Step 2: Install the NVIDIA CUDA Toolkit
 
 This provides the core libraries and compiler (nvcc) for GPU acceleration.
 
+```bash
 # Install the standard CUDA toolkit from the Ubuntu repositories.
 # We will use the g++-10 compiler from Step 1 to ensure compatibility.
 sudo apt install nvidia-cuda-toolkit
+```
 
-Step 3: Download and Configure LibTorch (GPU Version)
+---
+
+### Step 3: Download and Configure LibTorch (GPU Version)
 
 LibTorch is the C++ library for PyTorch, used by PLUMED for machine learning integration.
 
+```bash
 # Navigate to your home directory for a clean workspace
 cd ~
 
@@ -49,11 +65,15 @@ echo "export LD_LIBRARY_PATH=${LIBTORCH}/lib:\$LD_LIBRARY_PATH" >> ${LIBTORCH}/s
 
 # Add this script to your .bashrc so it's loaded automatically in all future terminals
 echo ". ${LIBTORCH}/sourceme.sh" >> ~/.bashrc
+```
 
-Step 4: Install PLUMED
+---
+
+### Step 4: Install PLUMED
 
 Compile PLUMED, linking against the LibTorch library.
 
+```bash
 # Navigate to your home directory
 cd ~
 
@@ -75,11 +95,15 @@ make -j4
 
 # Add the PLUMED environment file to your .bashrc for future sessions
 echo ". ${PWD}/sourceme.sh" >> ~/.bashrc
+```
 
-Step 5: Install GROMACS with GPU Support
+---
+
+### Step 5: Install GROMACS with GPU Support
 
 Download and compile a version of GROMACS compatible with your PLUMED installation.
 
+```bash
 # Navigate to your home directory
 cd ~
 
@@ -119,13 +143,35 @@ rm -rf $progname.tar.gz $progname-source
 
 source ${GROMACS_ROOT}/bin/GMXRC.bash
 echo ". ${GROMACS_ROOT}/bin/GMXRC.bash" >> ~/.bashrc
+```
 
-Step 6: Final Setup (Python Environment & Tutorial Data)
+---
+
+### Step 6: Final Setup (Python Environment & Tutorial Data)
 
 Create a dedicated Python environment for running the analysis and notebooks.
 
-Option A: Using conda
-
+```bash
 conda create -n masterclass22-05
 conda activate masterclass22-05
 conda install numpy pandas matplotlib scikit-learn pytorch torchvision torchaudio -c pytorch -c conda-forge
+```
+
+After creating the environment, install mlcvs and download the tutorial data:
+
+```bash
+# Make sure your 'masterclass22-05' environment is active
+cd ~
+git clone https://github.com/luigibonati/mlcvs.git -b v0.1.1
+cd mlcvs/
+pip install .
+cd ~
+
+# Download the tutorial data
+git clone https://github.com/luigibonati/masterclass-plumed.git
+```
+
+---
+
+**Installation Complete!**
+You are now fully set up and ready to begin the tutorial. Navigate to the `masterclass-plumed` directory and start the Jupyter notebooks.

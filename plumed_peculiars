@@ -1,0 +1,2 @@
+plumed really doesnt like Distances Group used droup A and Group B
+Autodiff can be bugged if model uses d1_1 or d45 and d54 both
